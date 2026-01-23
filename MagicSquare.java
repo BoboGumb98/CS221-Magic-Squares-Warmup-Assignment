@@ -23,43 +23,36 @@ public class MagicSquare implements MagicSquareInterface {
     // Constructor takes filename & dimension integer
     public MagicSquare(String filename, int dimension) throws IOException {
 
-        // writeMatrix(this.matrix, filename);
-        int n = dimension * dimension;
-        int[][] matrix = new int[n][n];
-        int row = n - 1;
-        int col = n / 2;
+        // From project handout
+        // int n = dimension * dimension;
+        this.matrix = new int[dimension][dimension];
+        int row = dimension - 1;
+        int col = dimension / 2;
         int oldRow, oldCol;
 
-        // From project handout
-        for (int i = 0; i <= n * n; i++) {
+        for (int i = 1; i <= dimension * dimension; i++) {
             matrix[row][col] = i;
             oldRow = row;
             oldCol = col;
             row++;
             col++;
-            if (row == n) {
+            if (row == dimension) {
                 row = 0;
             }
-            if (col == n) {
+            if (col == dimension) {
                 col = 0;
             }
             if (matrix[row][col] != 0) {
                 row = oldRow;
                 col = oldCol;
+                if (row <= 0) {
+                
+                    return;
+                }
                 row--;
             }
-
         }
-        File file = new File(filename);
-        PrintWriter outFile = new PrintWriter(file);
-        outFile.println(matrix.length);
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix.length; j++) {
-                outFile.print(matrix[i][j] + " ");
-            }
-            outFile.println();
-        }
-        outFile.close();
+        writeMatrix(matrix, filename);
     }
 
     private int[][] readMatrix(String filename) throws FileNotFoundException {
@@ -83,6 +76,18 @@ public class MagicSquare implements MagicSquareInterface {
         return tempMatrix;
     }
 
+    private void writeMatrix(int[][] matrix, String filename) throws IOException {
+        File file = new File(filename);
+        PrintWriter outFile = new PrintWriter(file);
+        outFile.println(matrix.length);
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                outFile.print(matrix[i][j] + " ");
+            }
+            outFile.println();
+        }
+        outFile.close();
+    }
     /*
      * Evaluates matrix & returns a boolean verdict
      * of whether the matrix is a magic square.
