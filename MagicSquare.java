@@ -17,7 +17,7 @@ public class MagicSquare implements MagicSquareInterface {
 
     // Constructor takes filename & attempts to read that file
     public MagicSquare(String filename) throws FileNotFoundException {
-        this.matrix = readMatrix(filename);
+        matrix = readMatrix(filename);
     }
 
     // Constructor takes filename & dimension integer
@@ -25,7 +25,7 @@ public class MagicSquare implements MagicSquareInterface {
 
         // From project handout
         // int n = dimension * dimension;
-        this.matrix = new int[dimension][dimension];
+        matrix = new int[dimension][dimension];
         int row = dimension - 1;
         int col = dimension / 2;
         int oldRow, oldCol;
@@ -130,6 +130,10 @@ public class MagicSquare implements MagicSquareInterface {
             diagSum2 += matrix[i][n - 1 - i];
         }
         if (diagSum1 == targetSum && diagSum2 == targetSum) {
+            
+            if (matrix[0][0] == matrix[0][1]) {
+                return false;
+            }
             return true;
         } else {
             return false;
