@@ -1,10 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -16,69 +13,48 @@ import java.util.Scanner;
 
 public class MagicSquare implements MagicSquareInterface {
 
-    Random rand = new Random();
     private int[][] matrix;
 
+    // Constructor takes filename & attempts to read that file
     public MagicSquare(String filename) throws FileNotFoundException {
-        // Constructor takes filename & attempts to read that file
-        readMatrix(filename);
-
-        File file = new File(filename);
-        Scanner scnr = new Scanner(file);
-        while (scnr.hasNextLine()) {
-            String line = scnr.nextLine();
-            System.out.println(line);
-        }
-        scnr.close();
-    }
-
-    private int[][] readMatrix(String filename) throws FileNotFoundException {
-        // Reads matrix from file & returns as 2D array of integers
-        File file = new File(filename);
-        Scanner scnr = new Scanner(file);
-        int dimension = scnr.nextInt();
-        int[][] matrix = new int[dimension][dimension];
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                matrix[i][j] = scnr.nextInt();
-            }
-        }
-        scnr.close();
-        return matrix;
-
+        this.matrix = readMatrix(filename);
     }
 
     // Constructor takes filename & dimension integer
     public MagicSquare(String filename, int dimension) throws IOException {
 
-        writeMatrix(getMatrix(), filename);
-
+        // writeMatrix(this.matrix, filename);
         int n = dimension * dimension;
-        int[][] matrix = new int[dimension][dimension];
+        int[][] matrix = new int[n][n];
         int row = n - 1;
         int col = n / 2;
-        int oldRow = row;
-        int oldCol = col;
+        int oldRow, oldCol;
 
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                matrix[i][j] = 0;
-
+        // From project handout
+        for (int i = 0; i <= n * n; i++) {
+            matrix[row][col] = i;
+            oldRow = row;
+            oldCol = col;
+            row++;
+            col++;
+            if (row == n) {
+                row = 0;
             }
-        }
+            if (col == n) {
+                col = 0;
+            }
+            if (matrix[row][col] != 0) {
+                row = oldRow;
+                col = oldCol;
+                row--;
+            }
 
-        if (matrix[row % dimension][col % dimension] != 0) {
-            row = oldRow;
-            col = oldCol;
-            row--;
         }
-    }
-
-    private void writeMatrix(int[][] matrix, String filename) throws IOException {
-        FileWriter writer = new FileWriter(filename);
-        PrintWriter outFile = new PrintWriter(writer);
+        File file = new File(filename);
+        PrintWriter outFile = new PrintWriter(file);
+        outFile.println(matrix.length);
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
+            for (int j = 0; j < matrix.length; j++) {
                 outFile.print(matrix[i][j] + " ");
             }
             outFile.println();
@@ -86,12 +62,35 @@ public class MagicSquare implements MagicSquareInterface {
         outFile.close();
     }
 
+    private int[][] readMatrix(String filename) throws FileNotFoundException {
+        // Reads matrix from file & returns as 2D array of integers
+        File file = new File(filename);
+        Scanner scnr = new Scanner(file);
+
+        if (!scnr.hasNextInt()) {
+            scnr.close();
+            return null;
+        }
+
+        int dimension = scnr.nextInt();
+        int[][] tempMatrix = new int[dimension][dimension];
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                tempMatrix[i][j] = scnr.nextInt();
+            }
+        }
+        scnr.close();
+        return tempMatrix;
+    }
+
     /*
      * Evaluates matrix & returns a boolean verdict
      * of whether the matrix is a magic square.
-     * A magic square is valid if the matrix consists of incrementing
-     * integrals starting at '1' & ending at the product of the
-     * given integer^2 without repeating any integers.
+     * A magic square is valid if each row, column,
+     * and diagonal sum to the same value.
+     * Also, the matrix must contain all integers
+     * from 1 to n^2 exactly once.
+     * 
      * Expl:
      * n = 3, 3^2 = 9
      * 4 9 2
@@ -100,17 +99,49 @@ public class MagicSquare implements MagicSquareInterface {
      */
 
     public boolean isMagicSquare() {
-        if (getMatrix() != null) {
+        if (matrix == null || matrix.length == 0) {
+            return false;
+        }
+
+        int n = matrix.length;
+        int targetSum = n * (n * n + 1) / 2;
+
+        for (int i = 0; i < n; i++) {
+            int rowSum = 0;
+            int colSum = 0;
+            for (int j = 0; j < n; j++) {
+                rowSum += matrix[i][j];
+                colSum += matrix[j][i];
+            }
+            if (rowSum != targetSum || colSum != targetSum) {
+                return false;
+            }
+
+        }
+        int diagSum1 = 0;
+        int diagSum2 = 0;
+        for (int i = 0; i < n; i++) {
+            diagSum1 += matrix[i][i];
+            diagSum2 += matrix[i][n - 1 - i];
+        }
+        if (diagSum1 == targetSum && diagSum2 == targetSum) {
             return true;
         } else {
             return false;
         }
+
     }
 
     // Returns a copy of the matrix as a 2D array of integers
     public int[][] getMatrix() {
-        int[][] newMatrix = new int[matrix.length][matrix.length];
-        return newMatrix;
+        int n = matrix.length;
+        int[][] copyMatrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                copyMatrix[i][j] = matrix[i][j];
+            }
+        }
+        return copyMatrix;
     }
 
     /**
@@ -120,7 +151,9 @@ public class MagicSquare implements MagicSquareInterface {
      * 3 5 7
      * 8 1 6
      * is a magic square.
+     * 
      * or
+     * 
      * The matrix
      * 5 3 7
      * 9 4 2
@@ -130,7 +163,6 @@ public class MagicSquare implements MagicSquareInterface {
 
     public String toString() {
         String result = "The matrix\n";
-        int[][] matrix = getMatrix();
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 result += matrix[i][j] + " ";

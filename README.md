@@ -23,23 +23,12 @@ INCLUDED FILES:
 
 COMPILING AND RUNNING:
 
- Give the command for compiling the program, the command
- for running the program, and any usage instructions the
- user needs.
- 
- These are command-line instructions for a system like onyx.
- They have nothing to do with Eclipse or any other IDE. They
- must be specific - assume the user has Java installed, but
- has no idea how to compile or run a Java program from the
- command-line.
- 
- e.g.
  From the directory containing all source files, compile the
  driver class (and all dependencies) with the command:
- $ javac Class1.java
+ $ javac MagicSquareDriver.java
 
  Run the compiled class file with the command:
- $ java Class1
+ $ java MagicSquareDriver.java
 
  Console output will give the results after the program finishes.
 
@@ -69,7 +58,7 @@ TESTING:
 
  How did you test your program to be sure it works and meets all of the
  requirements? What was the testing strategy? What kinds of tests were run?
- Can your program handle bad input? Is your program  idiot-proof? How do you 
+ Can your program handle bad input? Is your program idiot-proof? How do you 
  know? What are the known issues / bugs remaining in your program?
 
 

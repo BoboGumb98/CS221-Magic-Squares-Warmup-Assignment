@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 /**
  * 
@@ -9,18 +10,15 @@
 
 public class MagicSquareDriver {
 
-    public static void main(String[] args) {
-        try {
-            MagicSquare magicSquareFromFile = new MagicSquare("magic3.txt");
-            System.out.println("Magic Square read from file:");
-            System.out.println(magicSquareFromFile);
+    public static void main(String[] args) throws IOException {
 
-            int dimension = 5; // Example dimension
-            MagicSquare generatedMagicSquare = new MagicSquare("generatedMagic5.txt", dimension);
-            System.out.println("Generated Magic Square of dimension " + dimension + ":");
-            System.out.println(generatedMagicSquare);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String filename = args[0];
+        int dimension = Integer.parseInt(args[1]);
+        
+        MagicSquare magicSquare = new MagicSquare(filename, dimension);
+
+        System.out.println(magicSquare.toString());
+        
+        
     }
 }
