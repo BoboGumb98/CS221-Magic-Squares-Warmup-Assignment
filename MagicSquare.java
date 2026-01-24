@@ -10,7 +10,7 @@ import java.util.Scanner;
  * validity, and output its representation.
  * 
  * @author Brolen Gumb
- * @version 1.0
+ * @version 1.7
  * 
  */
 
@@ -107,7 +107,7 @@ public class MagicSquare implements MagicSquareInterface {
      * Writes the current matrix to a text file.
      * 
      * @param matrix The 2D array to write.
-     * @param filename The destination file path.
+     * @param filename The file's name.
      * @throws IOException If an error occurs during writing.
      */
 
@@ -151,6 +151,7 @@ public class MagicSquare implements MagicSquareInterface {
             }
 
         }
+        // Checks diagonals for targetSum
         int diagSum1 = 0;
         int diagSum2 = 0;
         for (int i = 0; i < n; i++) {
