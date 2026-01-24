@@ -15,16 +15,29 @@ public class MagicSquare implements MagicSquareInterface {
 
     private int[][] matrix;
 
-    // Constructor takes filename & attempts to read that file
+    /**
+     * Constructor that initializes a MagicSquare by reading an existing
+     * matrix from a formatted text file.
+     * @param filename The path to the file containing the matrix data.
+     * @throws IOException If the specified file does not exist.
+     */
+
     public MagicSquare(String filename) throws FileNotFoundException {
         matrix = readMatrix(filename);
     }
 
-    // Constructor takes filename & dimension integer
+     /**
+     * Constructor that creates a new Magic Square of a specified dimension
+     * and writes it to a file. This implementation uses the Siamese method 
+     * (De la Loubère's method) for odd-sized squares.
+     * * @param filename  The path where the new magic square will be saved.
+     * @param dimension The size of one side of the square (must be odd).
+     * @throws IOException If an error occurs during file writing.
+     */
+
     public MagicSquare(String filename, int dimension) throws IOException {
 
         // From project handout
-        // int n = dimension * dimension;
         matrix = new int[dimension][dimension];
         int row = dimension - 1;
         int col = dimension / 2;
@@ -55,6 +68,14 @@ public class MagicSquare implements MagicSquareInterface {
         writeMatrix(matrix, filename);
     }
 
+    /**
+     * Reads a matrix from a file. The file should start with an integer
+     * representing the dimension, followed by the matrix elements.
+     * * @param filename The path to the file.
+     * @return A 2D array representing the matrix.
+     * @throws FileNotFoundException If the file is not found.
+     */
+
     private int[][] readMatrix(String filename) throws FileNotFoundException {
         // Reads matrix from file & returns as 2D array of integers
         File file = new File(filename);
@@ -76,6 +97,13 @@ public class MagicSquare implements MagicSquareInterface {
         return tempMatrix;
     }
 
+    /**
+     * Writes the current matrix to a text file.
+     * * @param matrix   The 2D array to write.
+     * @param filename The destination file path.
+     * @throws IOException If an error occurs during writing.
+     */
+
     private void writeMatrix(int[][] matrix, String filename) throws IOException {
         File file = new File(filename);
         PrintWriter outFile = new PrintWriter(file);
@@ -88,21 +116,13 @@ public class MagicSquare implements MagicSquareInterface {
         }
         outFile.close();
     }
-    /*
-     * Evaluates matrix & returns a boolean verdict
-     * of whether the matrix is a magic square.
-     * A magic square is valid if each row, column,
-     * and diagonal sum to the same value.
-     * Also, the matrix must contain all integers
-     * from 1 to n^2 exactly once.
-     * 
-     * Expl:
-     * n = 3, 3^2 = 9
-     * 4 9 2
-     * 3 5 7
-     * 8 1 6
-     */
 
+    /**
+     * Evaluates the matrix to determine if it meets the criteria of a magic square.
+     * Checks that all rows, columns, and diagonals sum to the magic constant,
+     * and that all numbers from 1 to n^2 appear exactly once.
+     * * @return true if the matrix is a valid magic square, false otherwise.
+     */
     public boolean isMagicSquare() {
         if (matrix == null || matrix.length == 0) {
             return false;
@@ -141,7 +161,11 @@ public class MagicSquare implements MagicSquareInterface {
 
     }
 
-    // Returns a copy of the matrix as a 2D array of integers
+    /**
+     * Creates a deep copy of the matrix to prevent external modification.
+     * * @return A 2D array copy of the current matrix.
+     */
+
     public int[][] getMatrix() {
         int n = matrix.length;
         int[][] copyMatrix = new int[n][n];
@@ -154,20 +178,8 @@ public class MagicSquare implements MagicSquareInterface {
     }
 
     /**
-     * Returns a string formatted as in these examples:
-     * The matrix
-     * 4 9 2
-     * 3 5 7
-     * 8 1 6
-     * is a magic square.
-     * 
-     * or
-     * 
-     * The matrix
-     * 5 3 7
-     * 9 4 2
-     * 1 6 5
-     * is not a magic square.
+     * Returns a string representation of the matrix and its validity status.
+     * * @return A formatted string displaying the matrix and if it is a magic square.
      */
 
     public String toString() {

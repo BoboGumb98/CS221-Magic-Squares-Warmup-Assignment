@@ -1,22 +1,20 @@
 ****************
 * Magic Squares (warmup project)
-* CS221 Computer Science II
+* BSU CS221 Computer Science II (Mason Vail)
 * 15Jan2025
 * Brolen Gumb
 ****************
 
 OVERVIEW:
 
- Concisely explain what the program does. If this exceeds a couple
- of sentences, you're going too far. The details go in other
- sections.
+ This program generates a magic square using an inputted file or command line interaction functionality to validate existing matrices from files. It verifies all rows, columns & diagonals add to the same constant number as well as that all numbers are unique.
 
 
 INCLUDED FILES:
 
- * MagicSquare.java - 
- * MagicSquareDriver.java - Runs MagicSquare.java to create new object.
- * MagicSquareInterface.java - 
+ * MagicSquare.java - The logic class that handles matrix generation, file reading/writing, & validation
+ * MagicSquareDriver.java - Runs MagicSquare.java to create new object
+ * MagicSquareInterface.java - Defines the interface for the MagicSquare class, providing required methods
  * MagicSquaresTest.java - Tester for the MagicSquare.java file
  * README - this file
 
@@ -28,7 +26,7 @@ COMPILING AND RUNNING:
  $ javac MagicSquareDriver.java
 
  Run the compiled class file with the command:
- $ java MagicSquareDriver.java
+ $ java MagicSquareDriver <filename> <dimension>
 
  Console output will give the results after the program finishes.
 
