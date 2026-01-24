@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**
+ * The MagicSquare class represents a magic square matrix and provides
+ * functionalities to read from a file, create a new magic square, check its
+ * validity, and output its representation.
  * 
  * @author Brolen Gumb
  * @version 1.0
@@ -14,11 +17,13 @@ import java.util.Scanner;
 public class MagicSquare implements MagicSquareInterface {
 
     private int[][] matrix;
+    
 
     /**
      * Constructor that initializes a MagicSquare by reading an existing
      * matrix from a formatted text file.
-     * @param filename The path to the file containing the matrix data.
+     * 
+     * @param filename The file's name.
      * @throws IOException If the specified file does not exist.
      */
 
@@ -26,11 +31,11 @@ public class MagicSquare implements MagicSquareInterface {
         matrix = readMatrix(filename);
     }
 
-     /**
-     * Constructor that creates a new Magic Square of a specified dimension
-     * and writes it to a file. This implementation uses the Siamese method 
-     * (De la Loubère's method) for odd-sized squares.
-     * * @param filename  The path where the new magic square will be saved.
+    /**
+     * Constructor that creates a new Magic Square of a specified 'ODD' dimension
+     * and writes it to a file.
+     * 
+     * @param filename The file's name.
      * @param dimension The size of one side of the square (must be odd).
      * @throws IOException If an error occurs during file writing.
      */
@@ -38,7 +43,7 @@ public class MagicSquare implements MagicSquareInterface {
     public MagicSquare(String filename, int dimension) throws IOException {
 
         // From project handout
-        matrix = new int[dimension][dimension];
+        this.matrix = new int[dimension][dimension];
         int row = dimension - 1;
         int col = dimension / 2;
         int oldRow, oldCol;
@@ -59,7 +64,7 @@ public class MagicSquare implements MagicSquareInterface {
                 row = oldRow;
                 col = oldCol;
                 if (row <= 0) {
-                
+
                     return;
                 }
                 row--;
@@ -71,7 +76,8 @@ public class MagicSquare implements MagicSquareInterface {
     /**
      * Reads a matrix from a file. The file should start with an integer
      * representing the dimension, followed by the matrix elements.
-     * * @param filename The path to the file.
+     * 
+     * @param filename The path to the file.
      * @return A 2D array representing the matrix.
      * @throws FileNotFoundException If the file is not found.
      */
@@ -99,7 +105,8 @@ public class MagicSquare implements MagicSquareInterface {
 
     /**
      * Writes the current matrix to a text file.
-     * * @param matrix   The 2D array to write.
+     * 
+     * @param matrix The 2D array to write.
      * @param filename The destination file path.
      * @throws IOException If an error occurs during writing.
      */
@@ -121,7 +128,8 @@ public class MagicSquare implements MagicSquareInterface {
      * Evaluates the matrix to determine if it meets the criteria of a magic square.
      * Checks that all rows, columns, and diagonals sum to the magic constant,
      * and that all numbers from 1 to n^2 appear exactly once.
-     * * @return true if the matrix is a valid magic square, false otherwise.
+     * 
+     * @return true if the matrix is a valid magic square, false otherwise.
      */
     public boolean isMagicSquare() {
         if (matrix == null || matrix.length == 0) {
@@ -150,7 +158,7 @@ public class MagicSquare implements MagicSquareInterface {
             diagSum2 += matrix[i][n - 1 - i];
         }
         if (diagSum1 == targetSum && diagSum2 == targetSum) {
-            
+
             if (matrix[0][0] == matrix[0][1]) {
                 return false;
             }
@@ -162,8 +170,9 @@ public class MagicSquare implements MagicSquareInterface {
     }
 
     /**
-     * Creates a deep copy of the matrix to prevent external modification.
-     * * @return A 2D array copy of the current matrix.
+     * Creates a copy of the matrix and returns it.
+     * 
+     * @return A 2D array copy of the current matrix.
      */
 
     public int[][] getMatrix() {
@@ -178,8 +187,10 @@ public class MagicSquare implements MagicSquareInterface {
     }
 
     /**
-     * Returns a string representation of the matrix and its validity status.
-     * * @return A formatted string displaying the matrix and if it is a magic square.
+     * Returns a string representation of the matrix and its magic square status.
+     * 
+     * * @return A string displaying the matrix and if it is a magic
+     * square.
      */
 
     public String toString() {
